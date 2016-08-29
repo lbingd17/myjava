@@ -40,7 +40,7 @@ Java中hashmap的解决办法就是采用的链地址法。
 2.5.2 HashMap和HashTable有什么区别，一个比较简单的回答是：
 
       --HashMap是非线程安全的，HashTable是线程安全的。
-      --HashMap的键和值都允许有null值存在，而HashTable则不行。
+      --HashMap的键和值都允许有null值存在，而HashTable则不行(key 和 value 都不可以)。
       --因为线程安全的问题，HashMap效率比HashTable的要高。
  
 
