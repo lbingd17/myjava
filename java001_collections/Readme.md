@@ -42,7 +42,81 @@ Java中hashmap的解决办法就是采用的链地址法。
       --HashMap是非线程安全的，HashTable是线程安全的。
       --HashMap的键和值都允许有null值存在，而HashTable则不行(key 和 value 都不可以)。
       --因为线程安全的问题，HashMap效率比HashTable的要高。
+ 3.两者的遍历方式大同小异，Hashtable仅仅比HashMap多一个elements方法。
+[java] view plain copy
+
+    Enumeration em = table.elements();  
+    while (em.hasMoreElements()) {  
+    String obj = (String) em.nextElement();  
+    System.out.println(obj);   
+    }  
+
+
+Hashtable 和 HashMap 都能通过values()方法返回一个 Collection ，然后进行遍历处理：
+[java] view plain copy
+
+    Collection coll = map.values();  
+    Iterator it = coll.iterator();  
+    while (it.hasNext()) {  
+    String obj = (String) it.next();  
+    System.out.println(obj);  
+    }  
+
+
  
+
+两者也都可以通过 entrySet() 方法返回一个 Set ， 然后进行遍历处理：
+[java] view plain copy
+
+    Set set = table.entrySet();  
+    Iterator it = set.iterator();  
+    while (it.hasNext()) {  
+    Entry entry = (Entry) it.next();  
+    System.out.println(entry.getKey() + " - " + entry.getValue());  
+      
+    }  
+
+ 
+
+4.HashTable使用Enumeration，HashMap使用Iterator
+
+ 
+
+以下这两点是从内部实现机制上来进行比较，
+
+了解即可：
+
+5.哈希值的使用不同，Hashtable直接使用对象的hashCode，代码是这样的：
+[java] view plain copy
+
+    int hash = key.hashCode();  
+    int index = (hash & 0x7FFFFFFF) % tab.length;  
+
+ 
+
+而HashMap重新计算hash值，而且用与代替求模：
+[java] view plain copy
+
+    int hash = hash(k);  
+    int i = indexFor(hash, table.length);  
+      
+    static int hash(Object x) {  
+    　　int h = x.hashCode();  
+      
+    　　h += ~(h << 9);  
+    　　h ^= (h >>> 14);  
+    　　h += (h << 4);  
+    　　h ^= (h >>> 10);  
+    　　return h;  
+    }  
+      
+    static int indexFor(int h， int length) {  
+    　　return h & (length-1);  
+
+
+ 
+
+6.Hashtable中hash数组默认大小是11，增加的方式是 old*2+1。HashMap中hash数组的默认大小是16，而且一定是2的指数。
 
 2.5.3 一、HashMap的内部存储结构
 Java中数据存储方式最底层的两种结构，一种是数组，另一种就是链表，数组的特点：连续空间，寻址迅速，但是在删除或者添加元素的时候需要有较大幅度的移动，所以查询速度快，增删较慢。而链表正好相反，由于空间不连续，寻址困难，增删元素只需修改指针，所以查询慢、增删快。有没有一种数据结构来综合一下数组和链表，以便发挥他们各自的优势？答案是肯定的！就是：哈希表。哈希表具有较快（常量级）的查询速度，及相对较快的增删速度，所以很适合在海量数据的环境中使用。一般实现哈希表的方法采用“拉链法”，我们可以理解为“链表的数组”
@@ -165,3 +239,5 @@ http://blog.csdn.net/zhangerqing/article/details/8122075
 http://blog.csdn.net/zhangerqing/article/details/8193118
 
 http://blog.csdn.net/zhj870975587/article/details/50996811
+
+http://blog.csdn.net/tianfeng701/article/details/7588091
