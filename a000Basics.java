@@ -70,9 +70,13 @@ public class a000BasicDataStructures {
 		while(sc.hasNext()){
 			String st = sc.nextLine();  
 			System.out.println(st);
-			String[] starr = st.split(",");
-			for(int i = 0; i< starr.length; i ++){
-				System.out.println("dsfds　" +starr[i]);
+			String[] strarr = st.split(",");
+			for(int i = 0; i< strarr.length; i ++){
+				System.out.println("dsfds　" +strarr[i]);
+			}
+			int[] tmint = new int[strarr.length];
+			for(int i = 0; i < strarr.length; i ++) {
+			    tmint[i] = Integer.valueOf(strarr[i]);
 			}
 			/*
 			int tm = sc.nextInt();
